@@ -1,24 +1,24 @@
 :root {
-    --pink-primary: #ff69b4;
-    --pink-dark: #ff1493;
-    --pink-light: #ffb6d9;
-    --pink-lighter: #ffe6f2;
+    --orange-primary: #ff8c42;
+    --orange-dark: #ff6b35;
+    --orange-light: #ffb380;
+    --orange-lighter: #ffe5d4;
     --gray-dark: #2c3e50;
     --gray-light: #ecf0f1;
 }
 
 body {
-    background: linear-gradient(135deg, #ffeef8 0%, #fff5fc 100%);
+    background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
 }
 
 .header-box {
-    background: linear-gradient(135deg, var(--pink-primary) 0%, var(--pink-dark) 100%);
+    background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-dark) 100%);
     color: white;
     padding: 1.5rem;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
 }
 
 .header-box h1 {
@@ -39,7 +39,7 @@ body {
 
 .mesa-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 8px 30px rgba(255, 140, 66, 0.3);
 }
 
 .mesa-card.mesa-libre {
@@ -47,7 +47,7 @@ body {
 }
 
 .mesa-card.mesa-ocupada {
-    border-color: var(--pink-primary);
+    border-color: var(--orange-primary);
 }
 
 .mesa-card.mesa-limpiando {
@@ -76,7 +76,7 @@ body {
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--pink-dark);
+    color: var(--orange-dark);
     margin-bottom: 1rem;
 }
 
@@ -86,7 +86,7 @@ body {
 
 /* Botones personalizados */
 .btn-pink {
-    background: linear-gradient(135deg, var(--pink-primary) 0%, var(--pink-dark) 100%);
+    background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-dark) 100%);
     border: none;
     color: white;
     font-weight: 600;
@@ -96,15 +96,15 @@ body {
 }
 
 .btn-pink:hover {
-    background: linear-gradient(135deg, var(--pink-dark) 0%, #c71585 100%);
+    background: linear-gradient(135deg, var(--orange-dark) 0%, #e85a2e 100%);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+    box-shadow: 0 5px 15px rgba(255, 140, 66, 0.4);
     color: white;
 }
 
 .btn-outline-pink {
-    border: 2px solid var(--pink-primary);
-    color: var(--pink-primary);
+    border: 2px solid var(--orange-primary);
+    color: var(--orange-primary);
     font-weight: 600;
     padding: 0.6rem 1.5rem;
     border-radius: 10px;
@@ -112,7 +112,7 @@ body {
 }
 
 .btn-outline-pink:hover {
-    background: var(--pink-primary);
+    background: var(--orange-primary);
     color: white;
     transform: translateY(-2px);
 }
@@ -123,13 +123,13 @@ body {
     border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    border-top: 5px solid var(--pink-primary);
+    border-top: 5px solid var(--orange-primary);
 }
 
 .pedido-box h4, .menu-box h4 {
-    color: var(--pink-dark);
+    color: var(--orange-dark);
     font-weight: 600;
-    border-bottom: 2px solid var(--pink-light);
+    border-bottom: 2px solid var(--orange-light);
     padding-bottom: 0.5rem;
 }
 
@@ -139,8 +139,8 @@ body {
 }
 
 .table thead {
-    background: var(--pink-lighter);
-    color: var(--pink-dark);
+    background: var(--orange-lighter);
+    color: var(--orange-dark);
 }
 
 .table thead th {
@@ -156,17 +156,17 @@ body {
 
 /* Total del pedido */
 .total-box {
-    background: linear-gradient(135deg, var(--pink-lighter) 0%, #ffd6ec 100%);
+    background: linear-gradient(135deg, var(--orange-lighter) 0%, #ffd4b3 100%);
     border-radius: 15px;
     padding: 1.5rem;
     text-align: center;
     margin-top: 1rem;
-    border: 2px solid var(--pink-light);
+    border: 2px solid var(--orange-light);
 }
 
 .total-box h3 {
     margin: 0;
-    color: var(--pink-dark);
+    color: var(--orange-dark);
     font-weight: bold;
     font-size: 2rem;
 }
@@ -177,12 +177,12 @@ body {
 }
 
 .categoria-title {
-    color: var(--pink-dark);
+    color: var(--orange-dark);
     font-weight: 600;
     font-size: 1.2rem;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--pink-light);
+    border-bottom: 2px solid var(--orange-light);
 }
 
 /* Items del menú */
@@ -199,8 +199,8 @@ body {
 }
 
 .plato-item:hover {
-    background: var(--pink-lighter);
-    border-color: var(--pink-light);
+    background: var(--orange-lighter);
+    border-color: var(--orange-light);
     transform: translateX(5px);
 }
 
@@ -215,7 +215,7 @@ body {
 }
 
 .plato-precio {
-    color: var(--pink-dark);
+    color: var(--orange-dark);
     font-weight: bold;
     font-size: 1.1rem;
     margin-top: 0.2rem;
@@ -229,20 +229,20 @@ body {
 
 .cantidad-input {
     width: 70px;
-    border: 2px solid var(--pink-light);
+    border: 2px solid var(--orange-light);
     border-radius: 8px;
 }
 
 .cantidad-input:focus {
-    border-color: var(--pink-primary);
-    box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+    border-color: var(--orange-primary);
+    box-shadow: 0 0 0 0.2rem rgba(255, 140, 66, 0.25);
 }
 
 /* Alertas personalizadas */
 .alert-info {
-    background: var(--pink-lighter);
-    border-color: var(--pink-light);
-    color: var(--pink-dark);
+    background: var(--orange-lighter);
+    border-color: var(--orange-light);
+    color: var(--orange-dark);
     border-radius: 12px;
 }
 

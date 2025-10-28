@@ -1,25 +1,38 @@
 <?php
-require_once __DIR__.'/../modelo/PedidoDAO.php';
-$dao = new PedidoDAO();
+require_once '../modelo/Mesa.php';
+require_once '../modelo/Plato.php';
+require_once '../modelo/Pedido.php';
+require_once '../modelo/PedidoDAO.php';
+session_start();
+require_once '../modelo/PedidoDAO.php';
 
-$action = $_POST['action'] ?? $_GET['action'] ?? null;
-if($action === 'abrir'){
-    $mesa_id = $_POST['mesa_id'];
-    $id = $dao->abrirPedido($mesa_id);
-    echo json_encode(['ok'=>true,'pedido_id'=>$id]); exit;
-}
-if($action === 'cerrar'){
-    $mesa_id = $_POST['mesa_id'];
-    // buscar pedido abierto
-    $pedido = $dao->obtenerPedidoAbiertoPorMesa($mesa_id);
-    if(!$pedido){ echo json_encode(['error'=>'no_open']); exit;}
-    try{
-        $dao->cerrarPedido($pedido['id']);
-        echo json_encode(['ok'=>true]); exit;
-    }catch(Exception $e){
-        echo json_encode(['error'=>$e->getMessage()]); exit;
+// Inicializar datos
+PedidoDAO::inicializarMesas();
+PedidoDAO::inicializarMenu();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    
+    switch ($action) {
+        case 'abrir_pedido':
+            $mesa_numero = intval($_POST['mesa']);
+            $mesa = PedidoDAO::getMesa($mesa_numero);
+            
+            if ($mesa && $mesa->estaLibre()) {
+                PedidoDAO::crearPedido($mesa_numero);
+            }
+            break;
+            
+        case 'limpiar_mesa':
+            $mesa_numero = intval($_POST['mesa']);
+            PedidoDAO::limpiarMesa($mesa_numero);
+            break;
     }
+    
+    header('Location: ../vista/mesas.php');
+    exit;
 }
-if($action === 'list'){
-    echo json_encode($dao->listarMesas()); exit;
-}
+
+header('Location: ../vista/mesas.php');
+exit;
+?>
