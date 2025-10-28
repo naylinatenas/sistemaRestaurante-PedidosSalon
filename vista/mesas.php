@@ -1,6 +1,9 @@
 <?php
-session_start();
+require_once '../modelo/Mesa.php';
+require_once '../modelo/Plato.php';
+require_once '../modelo/Pedido.php';
 require_once '../modelo/PedidoDAO.php';
+session_start();
 
 PedidoDAO::inicializarMesas();
 PedidoDAO::inicializarMenu();
@@ -70,6 +73,11 @@ $mesas = PedidoDAO::getTodasLasMesas();
                     </div>
                 </div>
             <?php endforeach; ?>
+        </div>
+        <div class="text-center mt-5">
+            <a href="dashboard-mozo.php" class="btn btn-pink">
+                <i class="bi bi-arrow-left-circle"></i> Volver
+            </a>
         </div>
     </div>
     

@@ -1,6 +1,9 @@
 <?php
-session_start();
+require_once '../modelo/Mesa.php';
+require_once '../modelo/Plato.php';
+require_once '../modelo/Pedido.php';
 require_once '../modelo/PedidoDAO.php';
+session_start();
 
 PedidoDAO::inicializarMesas();
 PedidoDAO::inicializarMenu();
@@ -44,7 +47,6 @@ foreach ($menu as $plato) {
             <div class="alert alert-info">
                 <i class="bi bi-info-circle"></i> No hay pedido activo para esta mesa.
             </div>
-            <a href="mesas.php" class="btn btn-pink">Volver a Mesas</a>
         <?php else: ?>
             <div class="row">
                 <div class="col-lg-5 mb-4">

@@ -1,120 +1,90 @@
 <?php
-require_once __DIR__.'/../conexion/Conexion.php';
+require_once __DIR__ . '/Mesa.php';
+require_once __DIR__ . '/Plato.php';
+require_once __DIR__ . '/Pedido.php';
 
 class PedidoDAO {
-    private $pdo;
-    public function __construct(){ $this->pdo = Conexion::conectar(); }
-
-    // Mesas
-    public function listarMesas(){
-        $stmt = $this->pdo->query("SELECT * FROM mesas ORDER BY numero");
-        return $stmt->fetchAll();
-    }
-    public function getMesa($id){
-        $stmt = $this->pdo->prepare("SELECT * FROM mesas WHERE id = ?");
-        $stmt->execute([$id]); return $stmt->fetch();
-    }
-    public function setEstadoMesa($id, $estado){
-        $stmt = $this->pdo->prepare("UPDATE mesas SET estado = ? WHERE id = ?");
-        return $stmt->execute([$estado,$id]);
-    }
-
-    // Platos
-    public function listarPlatos(){
-        $stmt = $this->pdo->query("SELECT * FROM platos ORDER BY nombre");
-        return $stmt->fetchAll();
-    }
-    public function crearPlato($nombre,$categoria,$precio){
-        $stmt = $this->pdo->prepare("INSERT INTO platos (nombre,categoria,precio,veces) VALUES (?,?,?,0)");
-        $stmt->execute([$nombre,$categoria,$precio]); return $this->pdo->lastInsertId();
-    }
-    public function eliminarPlato($id){
-        $stmt = $this->pdo->prepare("DELETE FROM platos WHERE id = ?");
-        return $stmt->execute([$id]);
-    }
-
-    // Pedidos
-    public function abrirPedido($mesa_id, $mozo='mozo_demo'){
-        // crear pedido y marcar mesa ocupada
-        $this->pdo->beginTransaction();
-        $stmt = $this->pdo->prepare("INSERT INTO pedidos (mesa_id,mozo,hora_inicio,estado,total) VALUES (?,? , NOW(),'abierto',0)");
-        $stmt->execute([$mesa_id,$mozo]);
-        $pedido_id = $this->pdo->lastInsertId();
-        $this->setEstadoMesa($mesa_id,'ocupada');
-        $this->pdo->commit();
-        return $pedido_id;
-    }
-    public function obtenerPedidoAbiertoPorMesa($mesa_id){
-        $stmt = $this->pdo->prepare("SELECT * FROM pedidos WHERE mesa_id = ? AND estado = 'abierto' LIMIT 1");
-        $stmt->execute([$mesa_id]); $p = $stmt->fetch();
-        if(!$p) return null;
-        // detalles
-        $stmt2 = $this->pdo->prepare("SELECT d.*, pl.nombre, pl.precio FROM detalle_pedido d JOIN platos pl ON pl.id = d.plato_id WHERE d.pedido_id = ?");
-        $stmt2->execute([$p['id']]); $p['detalles'] = $stmt2->fetchAll();
-        return $p;
-    }
-    public function actualizarDetalles($pedido_id, $detalles){
-        // $detalles = [['plato_id'=>x,'cantidad'=>y],...]
-        $this->pdo->beginTransaction();
-        // borrar detalles actuales y reinsertar
-        $this->pdo->prepare("DELETE FROM detalle_pedido WHERE pedido_id = ?")->execute([$pedido_id]);
-        $total = 0;
-        $stmtIns = $this->pdo->prepare("INSERT INTO detalle_pedido (pedido_id,plato_id,cantidad,subtotal) VALUES (?,?,?,?)");
-        $stmtPl = $this->pdo->prepare("SELECT precio FROM platos WHERE id = ?");
-        foreach($detalles as $d){
-            $stmtPl->execute([$d['plato_id']]); $precio = $stmtPl->fetchColumn();
-            $subtotal = round($precio * intval($d['cantidad']),2);
-            $stmtIns->execute([$pedido_id, $d['plato_id'], $d['cantidad'], $subtotal]);
-            $total += $subtotal;
+    
+    public static function inicializarMesas() {
+        if (!isset($_SESSION['mesas'])) {
+            $_SESSION['mesas'] = [];
+            for ($i = 1; $i <= 6; $i++) {
+                $_SESSION['mesas'][$i] = new Mesa($i);
+            }
         }
-        $this->pdo->prepare("UPDATE pedidos SET total = ? WHERE id = ?")->execute([$total, $pedido_id]);
-        $this->pdo->commit();
-        return $total;
     }
-    public function cerrarPedido($pedido_id){
-        // cambiar estado pedido, marcar mesa limpiando y aumentar 'veces' de platos
-        $this->pdo->beginTransaction();
-        // obtener detalles y mesa
-        $stmt = $this->pdo->prepare("SELECT mesa_id FROM pedidos WHERE id = ?");
-        $stmt->execute([$pedido_id]); $mesa_id = $stmt->fetchColumn();
-        $stmtD = $this->pdo->prepare("SELECT plato_id, cantidad FROM detalle_pedido WHERE pedido_id = ?");
-        $stmtD->execute([$pedido_id]); $detalles = $stmtD->fetchAll();
-
-        if(empty($detalles)){
-            $this->pdo->rollBack(); throw new Exception("No hay items en el pedido");
+    
+    public static function inicializarMenu() {
+        if (!isset($_SESSION['menu'])) {
+            $_SESSION['menu'] = [
+                new Plato(1, 'Hamburguesa Clásica', 25.00, 'Platos Principales'),
+                new Plato(2, 'Pizza Margarita', 30.00, 'Platos Principales'),
+                new Plato(3, 'Ensalada César', 18.00, 'Entradas'),
+                new Plato(4, 'Pasta Carbonara', 28.00, 'Platos Principales'),
+                new Plato(5, 'Limonada', 8.00, 'Bebidas'),
+                new Plato(6, 'Cerveza', 10.00, 'Bebidas'),
+                new Plato(7, 'Helado de Vainilla', 12.00, 'Postres'),
+                new Plato(8, 'Tiramisú', 15.00, 'Postres'),
+            ];
         }
-        // actualizar veces
-        $stmtUp = $this->pdo->prepare("UPDATE platos SET veces = veces + ? WHERE id = ?");
-        foreach($detalles as $d){ $stmtUp->execute([$d['cantidad'],$d['plato_id']]); }
-
-        // cerrar pedido
-        $this->pdo->prepare("UPDATE pedidos SET estado = 'cerrado', hora_cierre = NOW() WHERE id = ?")->execute([$pedido_id]);
-        // mesa -> limpiando
-        $this->setEstadoMesa($mesa_id,'limpiando');
-
-        $this->pdo->commit();
-        return true;
     }
-
-    // Estadísticas
-    public function mesasOcupadasCount(){
-        $stmt = $this->pdo->query("SELECT COUNT(*) FROM mesas WHERE estado = 'ocupada'");
-        return (int)$stmt->fetchColumn();
+    
+    public static function getMesa($numero) {
+        return $_SESSION['mesas'][$numero] ?? null;
     }
-    public function ingresoHoy(){
-        $stmt = $this->pdo->query("SELECT IFNULL(SUM(total),0) FROM pedidos WHERE estado='cerrado' AND DATE(hora_cierre)=CURDATE()");
-        return (float)$stmt->fetchColumn();
+    
+    public static function getTodasLasMesas() {
+        return $_SESSION['mesas'];
     }
-    public function platoMasPedidoHoy(){
-        $stmt = $this->pdo->query("
-            SELECT p.nombre, SUM(d.cantidad) total_cant
-            FROM detalle_pedido d
-            JOIN pedidos pe ON pe.id = d.pedido_id
-            JOIN platos p ON p.id = d.plato_id
-            WHERE pe.estado='cerrado' AND DATE(pe.hora_cierre)=CURDATE()
-            GROUP BY d.plato_id ORDER BY total_cant DESC LIMIT 1
-        ");
-        $row = $stmt->fetch();
-        return $row ? $row['nombre'].' ('.$row['total_cant'].')' : '-';
+    
+    public static function getPlatoById($id) {
+        foreach ($_SESSION['menu'] as $plato) {
+            if ($plato->getId() === $id) {
+                return $plato;
+            }
+        }
+        return null;
+    }
+    
+    public static function getTodosLosPlatos() {
+        return $_SESSION['menu'];
+    }
+    
+    public static function crearPedido($mesa_numero) {
+        if (!isset($_SESSION['pedidos'])) {
+            $_SESSION['pedidos'] = [];
+        }
+        
+        $id = uniqid('pedido_');
+        $pedido = new Pedido($id, $mesa_numero);
+        $_SESSION['pedidos'][$id] = $pedido;
+        
+        $mesa = self::getMesa($mesa_numero);
+        $mesa->setEstado('ocupada');
+        $mesa->setPedidoId($id);
+        
+        return $pedido;
+    }
+    
+    public static function getPedidoById($id) {
+        return $_SESSION['pedidos'][$id] ?? null;
+    }
+    
+    public static function cerrarPedido($pedido_id) {
+        $pedido = self::getPedidoById($pedido_id);
+        if ($pedido) {
+            $pedido->cerrar();
+            $mesa = self::getMesa($pedido->getMesaNumero());
+            $mesa->setEstado('limpiando');
+        }
+    }
+    
+    public static function limpiarMesa($mesa_numero) {
+        $mesa = self::getMesa($mesa_numero);
+        if ($mesa) {
+            $mesa->setEstado('libre');
+            $mesa->setPedidoId(null);
+        }
     }
 }
+?>
