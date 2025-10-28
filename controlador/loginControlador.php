@@ -1,10 +1,27 @@
 <?php
+require_once("../modelo/usuario.php");
 session_start();
-// login demo: se puede extender
-$usuario = $_POST['usuario'] ?? '';
-$contrasena = $_POST['contrasena'] ?? '';
-if($usuario === 'mozo' && $contrasena === 'demo'){
-    $_SESSION['user'] = ['usuario'=>'mozo','rol'=>'mozo'];
-    header('Location: /public/index.php'); exit;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $correo = trim($_POST['correo']);
+    $clave = trim($_POST['clave']);
+
+    $usuarioModel = new Usuario();
+    $usuario = $usuarioModel->verificarLogin($correo, $clave);
+
+    if ($usuario) {
+        $_SESSION['usuario'] = $usuario['nombre'];
+        $_SESSION['rol'] = $usuario['rol'];
+
+        if ($usuario['rol'] == 'admin') {
+            header("Location: ../vista/dashboard-admin.php");
+        } else {
+            header("Location: ../vista/dashboard-mozo.php");
+        }
+        exit();
+    } else {
+        header("Location: ../vista/login.php?error=1");
+        exit();
+    }
 }
-header('Location: /vista/login.php?error=1'); exit;
+?>

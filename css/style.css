@@ -1,0 +1,268 @@
+:root {
+    --pink-primary: #ff69b4;
+    --pink-dark: #ff1493;
+    --pink-light: #ffb6d9;
+    --pink-lighter: #ffe6f2;
+    --gray-dark: #2c3e50;
+    --gray-light: #ecf0f1;
+}
+
+body {
+    background: linear-gradient(135deg, #ffeef8 0%, #fff5fc 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+.header-box {
+    background: linear-gradient(135deg, var(--pink-primary) 0%, var(--pink-dark) 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+}
+
+.header-box h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* Tarjetas de Mesa */
+.mesa-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+}
+
+.mesa-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(255, 105, 180, 0.3);
+}
+
+.mesa-card.mesa-libre {
+    border-color: #28a745;
+}
+
+.mesa-card.mesa-ocupada {
+    border-color: var(--pink-primary);
+}
+
+.mesa-card.mesa-limpiando {
+    border-color: #ffc107;
+}
+
+.mesa-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--gray-dark);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.mesa-status {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.mesa-status .badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+.mesa-total {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--pink-dark);
+    margin-bottom: 1rem;
+}
+
+.mesa-actions {
+    margin-top: 1rem;
+}
+
+/* Botones personalizados */
+.btn-pink {
+    background: linear-gradient(135deg, var(--pink-primary) 0%, var(--pink-dark) 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-pink:hover {
+    background: linear-gradient(135deg, var(--pink-dark) 0%, #c71585 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+    color: white;
+}
+
+.btn-outline-pink {
+    border: 2px solid var(--pink-primary);
+    color: var(--pink-primary);
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-pink:hover {
+    background: var(--pink-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Cajas de contenido */
+.pedido-box, .menu-box {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid var(--pink-primary);
+}
+
+.pedido-box h4, .menu-box h4 {
+    color: var(--pink-dark);
+    font-weight: 600;
+    border-bottom: 2px solid var(--pink-light);
+    padding-bottom: 0.5rem;
+}
+
+/* Tabla del pedido */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead {
+    background: var(--pink-lighter);
+    color: var(--pink-dark);
+}
+
+.table thead th {
+    border: none;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+/* Total del pedido */
+.total-box {
+    background: linear-gradient(135deg, var(--pink-lighter) 0%, #ffd6ec 100%);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 1rem;
+    border: 2px solid var(--pink-light);
+}
+
+.total-box h3 {
+    margin: 0;
+    color: var(--pink-dark);
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+/* Categorías del menú */
+.categoria-section {
+    margin-bottom: 2rem;
+}
+
+.categoria-title {
+    color: var(--pink-dark);
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--pink-light);
+}
+
+/* Items del menú */
+.plato-item {
+    background: var(--gray-light);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.plato-item:hover {
+    background: var(--pink-lighter);
+    border-color: var(--pink-light);
+    transform: translateX(5px);
+}
+
+.plato-info {
+    flex: 1;
+}
+
+.plato-nombre {
+    font-weight: 600;
+    color: var(--gray-dark);
+    font-size: 1rem;
+}
+
+.plato-precio {
+    color: var(--pink-dark);
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 0.2rem;
+}
+
+.plato-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.cantidad-input {
+    width: 70px;
+    border: 2px solid var(--pink-light);
+    border-radius: 8px;
+}
+
+.cantidad-input:focus {
+    border-color: var(--pink-primary);
+    box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+}
+
+/* Alertas personalizadas */
+.alert-info {
+    background: var(--pink-lighter);
+    border-color: var(--pink-light);
+    color: var(--pink-dark);
+    border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-box h1 {
+        font-size: 1.5rem;
+    }
+    
+    .mesa-number {
+        font-size: 1.5rem;
+    }
+    
+    .plato-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .plato-form {
+        width: 100%;
+        justify-content: center;
+    }
+}
