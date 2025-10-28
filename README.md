@@ -36,6 +36,18 @@ Permite controlar qué mesa pidió qué platos y calcular el total a pagar.
 - Una mesa no puede abrir un nuevo pedido si tiene uno abierto.  
 - El mozo **no puede** modificar precios.
 
+## 🪪Credenciales de ingreso
+### Admin:
+-correo:admin@restaurante.com 
+-clave: admin123
+
+### Mozo:
+-correo:Alonso@restaurante.com 
+-clave: mozo123
+
 ---
 
 📌 **Desarrollado por el Grupo 7**
+-Acosta Plasencia, Naylin 
+-Chuquipoma Medina, Sthefany
+-Mantilla Sanchez, Elsa
