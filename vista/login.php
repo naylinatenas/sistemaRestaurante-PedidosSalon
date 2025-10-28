@@ -65,7 +65,7 @@
                 <h4 class="mb-3">Sistema de Restaurante</h4>
                 <h5 class="text-muted mb-4">Iniciar Sesión</h5>
 
-                <form method="POST" action="../controlador/LoginController.php">
+                <form method="POST" action="../controlador/loginControlador.php">
                     <div class="mb-3 text-start">
                         <label for="correo" class="form-label"><i class="fa-solid fa-envelope me-2"></i>Correo</label>
                         <input type="email" name="correo" id="correo" class="form-control" placeholder="Ingrese su correo" required>
