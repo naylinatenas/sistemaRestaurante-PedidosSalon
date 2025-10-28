@@ -1,5 +1,6 @@
 <?php
 require_once("../modelo/usuario.php");
+require_once("../modelo/usuario.php");
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -15,7 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($usuario['rol'] == 'admin') {
             header("Location: ../vista/dashboard-admin.php");
+            header("Location: ../vista/dashboard-admin.php");
         } else {
+            header("Location: ../vista/dashboard-mozo.php");
             header("Location: ../vista/dashboard-mozo.php");
         }
         exit();
