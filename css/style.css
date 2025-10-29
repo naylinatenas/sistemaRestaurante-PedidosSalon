@@ -7,12 +7,41 @@
     --gray-light: #ecf0f1;
 }
 
+/* ==== LAYOUT GENERAL ==== */
 body {
     background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
     min-height: 100vh;
 }
 
+/* 🔸 Sidebar fijo */
+.sidebar {
+    width: 240px;
+    background: linear-gradient(180deg, var(--orange-primary), var(--orange-dark));
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 🔸 Contenido principal */
+.main-content {
+    flex: 1;
+    margin-left: 240px; /* Compensa el ancho del sidebar */
+    padding: 2rem;
+    width: calc(100% - 240px);
+    box-sizing: border-box;
+}
+
+/* ==== HEADER ==== */
 .header-box {
     background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-dark) 100%);
     color: white;
@@ -27,7 +56,7 @@ body {
     font-weight: 600;
 }
 
-/* Tarjetas de Mesa */
+/* ==== TARJETAS DE MESAS ==== */
 .mesa-card {
     background: white;
     border-radius: 20px;
@@ -36,23 +65,13 @@ body {
     transition: all 0.3s ease;
     border: 3px solid transparent;
 }
-
 .mesa-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 30px rgba(255, 140, 66, 0.3);
 }
-
-.mesa-card.mesa-libre {
-    border-color: #28a745;
-}
-
-.mesa-card.mesa-ocupada {
-    border-color: var(--orange-primary);
-}
-
-.mesa-card.mesa-limpiando {
-    border-color: #ffc107;
-}
+.mesa-card.mesa-libre { border-color: #28a745; }
+.mesa-card.mesa-ocupada { border-color: var(--orange-primary); }
+.mesa-card.mesa-limpiando { border-color: #ffc107; }
 
 .mesa-number {
     font-size: 2rem;
@@ -61,17 +80,10 @@ body {
     text-align: center;
     margin-bottom: 0.5rem;
 }
-
 .mesa-status {
     text-align: center;
     margin-bottom: 1rem;
 }
-
-.mesa-status .badge {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-}
-
 .mesa-total {
     text-align: center;
     font-size: 1.5rem;
@@ -80,11 +92,7 @@ body {
     margin-bottom: 1rem;
 }
 
-.mesa-actions {
-    margin-top: 1rem;
-}
-
-/* Botones personalizados */
+/* ==== BOTONES ==== */
 .btn-pink {
     background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-dark) 100%);
     border: none;
@@ -94,14 +102,12 @@ body {
     border-radius: 10px;
     transition: all 0.3s ease;
 }
-
 .btn-pink:hover {
     background: linear-gradient(135deg, var(--orange-dark) 0%, #e85a2e 100%);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 140, 66, 0.4);
     color: white;
 }
-
 .btn-outline-pink {
     border: 2px solid var(--orange-primary);
     color: var(--orange-primary);
@@ -110,14 +116,13 @@ body {
     border-radius: 10px;
     transition: all 0.3s ease;
 }
-
 .btn-outline-pink:hover {
     background: var(--orange-primary);
     color: white;
     transform: translateY(-2px);
 }
 
-/* Cajas de contenido */
+/* ==== CONTENEDORES DE PEDIDO Y MENÚ ==== */
 .pedido-box, .menu-box {
     background: white;
     border-radius: 20px;
@@ -125,7 +130,6 @@ body {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     border-top: 5px solid var(--orange-primary);
 }
-
 .pedido-box h4, .menu-box h4 {
     color: var(--orange-dark);
     font-weight: 600;
@@ -133,28 +137,22 @@ body {
     padding-bottom: 0.5rem;
 }
 
-/* Tabla del pedido */
-.table {
-    margin-bottom: 0;
-}
-
+/* ==== TABLA DE PEDIDO ==== */
 .table thead {
     background: var(--orange-lighter);
     color: var(--orange-dark);
 }
-
 .table thead th {
     border: none;
     font-weight: 600;
     padding: 1rem;
 }
-
 .table tbody td {
     padding: 1rem;
     vertical-align: middle;
 }
 
-/* Total del pedido */
+/* ==== TOTAL ==== */
 .total-box {
     background: linear-gradient(135deg, var(--orange-lighter) 0%, #ffd4b3 100%);
     border-radius: 15px;
@@ -163,7 +161,6 @@ body {
     margin-top: 1rem;
     border: 2px solid var(--orange-light);
 }
-
 .total-box h3 {
     margin: 0;
     color: var(--orange-dark);
@@ -171,21 +168,7 @@ body {
     font-size: 2rem;
 }
 
-/* Categorías del menú */
-.categoria-section {
-    margin-bottom: 2rem;
-}
-
-.categoria-title {
-    color: var(--orange-dark);
-    font-weight: 600;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--orange-light);
-}
-
-/* Items del menú */
+/* ==== MENÚ ==== */
 .plato-item {
     background: var(--gray-light);
     border-radius: 12px;
@@ -197,72 +180,22 @@ body {
     transition: all 0.3s ease;
     border: 2px solid transparent;
 }
-
 .plato-item:hover {
     background: var(--orange-lighter);
     border-color: var(--orange-light);
     transform: translateX(5px);
 }
 
-.plato-info {
-    flex: 1;
-}
-
-.plato-nombre {
-    font-weight: 600;
-    color: var(--gray-dark);
-    font-size: 1rem;
-}
-
-.plato-precio {
-    color: var(--orange-dark);
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-top: 0.2rem;
-}
-
-.plato-form {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.cantidad-input {
-    width: 70px;
-    border: 2px solid var(--orange-light);
-    border-radius: 8px;
-}
-
-.cantidad-input:focus {
-    border-color: var(--orange-primary);
-    box-shadow: 0 0 0 0.2rem rgba(255, 140, 66, 0.25);
-}
-
-/* Alertas personalizadas */
-.alert-info {
-    background: var(--orange-lighter);
-    border-color: var(--orange-light);
-    color: var(--orange-dark);
-    border-radius: 12px;
-}
-
-/* Responsive */
+/* ==== RESPONSIVE ==== */
 @media (max-width: 768px) {
-    .header-box h1 {
-        font-size: 1.5rem;
-    }
-    
-    .mesa-number {
-        font-size: 1.5rem;
-    }
-    
-    .plato-item {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .plato-form {
+    .sidebar {
+        position: relative;
         width: 100%;
-        justify-content: center;
+        height: auto;
+    }
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1rem;
     }
 }
