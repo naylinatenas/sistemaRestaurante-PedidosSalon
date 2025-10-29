@@ -4,7 +4,6 @@ require_once '../modelo/Plato.php';
 require_once '../modelo/Pedido.php';
 require_once '../modelo/PedidoDAO.php';
 session_start();
-require_once '../modelo/PedidoDAO.php';
 
 // Inicializar datos
 PedidoDAO::inicializarMesas();
