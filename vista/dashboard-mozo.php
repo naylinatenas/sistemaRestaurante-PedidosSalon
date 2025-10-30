@@ -19,7 +19,7 @@ PedidoDAO::inicializarMenu();
 
 // 🔸 Obtener datos desde la base de datos
 $mesas = PedidoDAO::getTodasLasMesas();
-$pedidos = PedidoDAO::getTodosLosPedidos(); // ahora devuelve arrays
+$pedidos = PedidoDAO::obtenerTodosLosPedidosDB();
 
 // 🔹 Variables para los indicadores del dashboard
 $mesasOcupadas = 0;

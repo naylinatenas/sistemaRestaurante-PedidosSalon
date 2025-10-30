@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $usuarioModel->verificarLogin($correo, $clave);
 
     if ($usuario) {
+        // ✅ CRÍTICO: Guardar ID del usuario en sesión
+        $_SESSION['usuario_id'] = $usuario['id_usuario'];  // ← ESTO ES CRÍTICO
         $_SESSION['usuario'] = $usuario['nombre'];
         $_SESSION['rol'] = $usuario['rol'];
 

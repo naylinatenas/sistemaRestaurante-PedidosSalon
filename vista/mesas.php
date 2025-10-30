@@ -173,7 +173,20 @@ $mesas = PedidoDAO::getTodasLasMesas();
                     </div>
                 </div>
             <?php endforeach; ?>
-        </div>
+                </div>
+                <?php if (isset($_SESSION['mensaje'])): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= htmlspecialchars($_SESSION['mensaje']) ?>
+                <?php unset($_SESSION['mensaje']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= htmlspecialchars($_SESSION['error']) ?>
+                <?php unset($_SESSION['error']); ?>
+            </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>

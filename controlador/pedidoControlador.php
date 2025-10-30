@@ -1,44 +1,103 @@
 <?php
-require_once '../modelo/Mesa.php';
-require_once '../modelo/Plato.php';
-require_once '../modelo/Pedido.php';
 require_once '../modelo/PedidoDAO.php';
 session_start();
 
-// Inicializar datos de sesión si hace falta
-PedidoDAO::inicializarMesas();
-PedidoDAO::inicializarMenu();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? '';
-
-    switch ($action) {
-        case 'agregar_plato':
-            $pedido_id = $_POST['pedido_id'] ?? '';
-            $plato_id = intval($_POST['plato_id']);
-            $cantidad = intval($_POST['cantidad']);
-
-            $pedido = PedidoDAO::getPedidoById($pedido_id);
-            $plato = PedidoDAO::getPlatoById($plato_id);
-
-            if ($pedido && $plato && $pedido->getEstado() === 'abierto') {
-                $pedido->agregarItem($plato, $cantidad);
-            }
-            break;
-
-        case 'cerrar_pedido':
-            $pedido_id = $_POST['pedido_id'] ?? '';
-            // cerrarPedido en DAO ahora persiste en BD y elimina de sesión
-            $success = PedidoDAO::cerrarPedido($pedido_id);
-            // puedes manejar $success si quieres mostrar mensajes
-            break;
-    }
-
-    $mesa = $_POST['mesa'] ?? '';
-    header('Location: ../vista/pedido.php?mesa=' . urlencode($mesa));
-    exit;
+// ✅ Verificar autenticación
+if (!isset($_SESSION['usuario']) || $_SESSION['rol'] != 'mozo') {
+    header("Location: ../vista/login.php");
+    exit();
 }
 
-header('Location: ../vista/mesas.php');
+// ✅ Solo aceptar solicitudes POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../vista/mesas.php');
+    exit();
+}
+
+$action = $_POST['action'] ?? '';
+$mesa = $_POST['mesa'] ?? '';
+
+switch ($action) {
+
+    // 🟢 AGREGAR PLATO AL PEDIDO
+    case 'agregar_plato':
+        $pedido_id = $_POST['pedido_id'] ?? '';
+        $plato_id = trim($_POST['plato_id'] ?? '');
+        $cantidad = intval($_POST['cantidad'] ?? 0);
+
+        if ($pedido_id && $plato_id && $cantidad > 0) {
+            $resultado = PedidoDAO::agregarPlatoAPedidoDB($pedido_id, $plato_id, $cantidad);
+            $_SESSION[$resultado ? 'mensaje' : 'error'] = $resultado 
+                ? 'Plato agregado correctamente.' 
+                : 'No se pudo agregar el plato al pedido.';
+        } else {
+            $_SESSION['error'] = 'Datos inválidos para agregar plato.';
+        }
+        break;
+
+    // 🔴 ELIMINAR PLATO DEL PEDIDO
+    case 'eliminar_plato':
+        $pedido_id = $_POST['pedido_id'] ?? '';
+        $plato_id = $_POST['plato_id'] ?? '';
+
+        if ($pedido_id && $plato_id) {
+            $resultado = PedidoDAO::eliminarPlatoDePedidoDB($pedido_id, $plato_id);
+            $_SESSION[$resultado ? 'mensaje' : 'error'] = $resultado
+                ? 'Plato eliminado correctamente.'
+                : 'No se pudo eliminar el plato.';
+        } else {
+            $_SESSION['error'] = 'Datos incompletos para eliminar el plato.';
+        }
+        break;
+
+    // 🟠 CERRAR PEDIDO
+    case 'cerrar_pedido':
+        $pedido_id = $_POST['pedido_id'] ?? '';
+
+        if ($pedido_id) {
+            $resultado = PedidoDAO::cerrarPedidoDB($pedido_id);
+            if ($resultado) {
+                $_SESSION['mensaje'] = 'Pedido cerrado correctamente.';
+                header('Location: ../vista/mesas.php');
+                exit;
+            } else {
+                $_SESSION['error'] = 'No se pudo cerrar el pedido.';
+            }
+        } else {
+            $_SESSION['error'] = 'Falta el ID del pedido para cerrar.';
+        }
+        break;
+
+    // 🔵 ELIMINAR PEDIDO COMPLETO
+    case 'eliminar_pedido':
+        $pedido_id = $_POST['pedido_id'] ?? '';
+        if ($pedido_id) {
+            $resultado = PedidoDAO::eliminarPedidoDB($pedido_id);
+            if ($resultado) {
+                $_SESSION['mensaje'] = 'Pedido eliminado correctamente.';
+                // 🔁 Redirigir a la lista de mesas porque el pedido ya no existe
+                header('Location: ../vista/mesas.php');
+                exit;
+            } else {
+                $_SESSION['error'] = 'No se pudo eliminar el pedido.';
+            }
+        } else {
+            $_SESSION['error'] = 'Falta el ID del pedido para eliminar.';
+        }
+        break;
+
+
+    // ⚫ ACCIÓN DESCONOCIDA
+    default:
+        $_SESSION['error'] = 'Acción no válida.';
+        break;
+}
+
+// ✅ Redirigir según la mesa
+if ($mesa) {
+    header('Location: ../vista/pedido.php?mesa=' . urlencode($mesa));
+} else {
+    header('Location: ../vista/mesas.php');
+}
 exit;
 ?>
