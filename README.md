@@ -41,14 +41,13 @@ Permite controlar qué mesa pidió qué platos y calcular el total a pagar.
 -correo:admin@restaurante.com 
 -clave: admin123
 
-### Mozo:
-MOZO (Alonso)
+### Mozo 01:
 -correo:Alonso@restaurante.com 
 -clave: mozo123
-MOZO (María Torres)
-     Correo: maria@restaurante.com
-     Clave:  mozo123
----
+
+### Mozo 02:
+-correo:maria@restaurante.com
+-clave: mozo123
 
 📌 **Desarrollado por el Grupo 7**
 -Acosta Plasencia, Naylin 
