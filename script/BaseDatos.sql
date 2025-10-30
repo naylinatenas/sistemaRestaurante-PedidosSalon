@@ -3,9 +3,9 @@
 -- Grupo 7 - Pedidos en Salón
 -- Versión Completa y Corregida
 -- ==========================================
-DROP DATABASE IF EXISTS restauranteGrupo7;
-CREATE DATABASE restauranteGrupo7;
-USE restauranteGrupo7;
+-- DROP DATABASE IF EXISTS restauranteGrupo7;
+-- CREATE DATABASE restauranteGrupo7;
+-- USE restauranteGrupo7;
 
 -- ==========================================
 -- TABLA: usuario
