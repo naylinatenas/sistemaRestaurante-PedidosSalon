@@ -42,12 +42,19 @@ Permite controlar qué mesa pidió qué platos y calcular el total a pagar.
 -clave: admin123
 
 ### Mozo:
+MOZO (Alonso)
 -correo:Alonso@restaurante.com 
 -clave: mozo123
-
+MOZO (María Torres)
+     Correo: maria@restaurante.com
+     Clave:  mozo123
 ---
 
 📌 **Desarrollado por el Grupo 7**
 -Acosta Plasencia, Naylin 
 -Chuquipoma Medina, Sthefany
 -Mantilla Sanchez, Elsa
+
+**Acceso al Sistema**
+  Sistema Web: https://sistemarestaurante-pedidosalon.xo.je
+  Repositorio: https://github.com/naylinatenas/sistemaRestaurante-PedidosSalon
