@@ -14,7 +14,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 
 $dao = new PlatoDAO();
 
-try {
+try { 
     $method = $_SERVER['REQUEST_METHOD'];
 
     if ($method === 'POST') {

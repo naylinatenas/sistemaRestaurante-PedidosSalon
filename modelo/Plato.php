@@ -10,3 +10,4 @@ class Plato {
         $this->id=$id; $this->nombre=$nombre; $this->categoria=$categoria; $this->precio=$precio; $this->veces=$veces;
     }
 }
+ 

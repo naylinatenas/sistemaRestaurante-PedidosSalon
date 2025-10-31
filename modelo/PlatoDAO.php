@@ -16,7 +16,7 @@ class PlatoDAO {
         $ultimoId = $stmt->fetchColumn();
 
         if ($ultimoId) {
-            $numero = intval(substr($ultimoId, 1));
+            $numero = intval(substr($ultimoId, 1)); 
             $nuevoNumero = $numero + 1;
         } else {
             $nuevoNumero = 1;

@@ -12,7 +12,7 @@ $platos = $dao->listarPlatos();
             <th>Precio</th>
             <th>Estado</th>
             <th>Acciones</th>
-        </tr>
+        </tr> 
     </thead>
     <tbody>
         <?php foreach ($platos as $p): ?>
