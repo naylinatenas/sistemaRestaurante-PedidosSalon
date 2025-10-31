@@ -6,6 +6,11 @@ require_once __DIR__ . '/../conexion/Conexion.php';
 
 class PedidoDAO {
 
+    private $pdo;
+    public function __construct() { 
+        $this->pdo = Conexion::conectar(); 
+    }
+
     /* ===========================
        ===== CREAR PEDIDO EN BD ====
        =========================== */
@@ -151,6 +156,31 @@ class PedidoDAO {
             error_log("Error al agregar plato: " . $e->getMessage());
             return false;
         }
+    }
+
+     public function mesasOcupadasCount() {
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM mesa WHERE estado_mesa = 'ocupada'");
+        return (int)$stmt->fetchColumn();
+    }
+
+    public function ingresoHoy() {
+        $stmt = $this->pdo->query("SELECT IFNULL(SUM(total), 0) FROM pedido WHERE estado_pedido = 'cerrado' AND DATE(hora_cierre) = CURDATE()");
+        return (float)$stmt->fetchColumn();
+    }
+
+     public function platoMasPedidoHoy() {
+        $stmt = $this->pdo->query("
+            SELECT p.nombre, SUM(d.cantidad) total_cant
+            FROM detalle_pedido d
+            JOIN pedido pe ON pe.id_pedido = d.pedido_id
+            JOIN plato p ON p.id_plato = d.plato_id
+            WHERE pe.estado_pedido = 'cerrado' AND DATE(pe.hora_cierre) = CURDATE()
+            GROUP BY d.plato_id
+            ORDER BY total_cant DESC
+            LIMIT 1
+        ");
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? $row['nombre'].' ('.$row['total_cant'].')' : '-';
     }
 
     /* ===========================

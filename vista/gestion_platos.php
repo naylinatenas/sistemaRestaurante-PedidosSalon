@@ -9,7 +9,7 @@ require_once __DIR__ . '/../conexion/Conexion.php';
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] != 'admin') {
     header("Location: ../login.php");
     exit();
-}
+} 
 
 $dao = new PlatoDAO();
 $platos = $dao->listarPlatos();

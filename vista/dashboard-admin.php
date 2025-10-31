@@ -1,3 +1,34 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+
+require_once __DIR__ . '/../modelo/PedidoDAO.php';
+require_once __DIR__ . '/../conexion/Conexion.php';
+
+if (!isset($_SESSION['usuario']) || $_SESSION['rol'] != 'admin') {
+    header("Location: ../login.php");
+    exit();
+} 
+
+// Crear DAO
+$pedidoDAO = new PedidoDAO();
+$pdo = Conexion::conectar();
+
+// Datos del dashboard
+$mesa_ocupadas = $pedidoDAO->mesasOcupadasCount();
+$ingreso_total = $pedidoDAO->ingresoHoy();
+$plato_popular = $pedidoDAO->platoMasPedidoHoy();
+
+$stmt = $pdo->query("SELECT COUNT(*) FROM pedido WHERE DATE(hora_inicio)=CURDATE()");
+$pedidos_hoy = (int)$stmt->fetchColumn();
+$stmt = $pdo->query("SELECT COUNT(*) FROM pedido WHERE estado_pedido='abierto'");
+$pedidos_activos = (int)$stmt->fetchColumn();
+$stmt = $pdo->query("SELECT AVG(total) FROM pedido WHERE estado_pedido='cerrado' AND DATE(hora_cierre)=CURDATE()");
+$ticket_promedio = (float)$stmt->fetchColumn();
+$stmt = $pdo->query("SELECT COUNT(*) FROM mesa");
+$total_mesas = (int)$stmt->fetchColumn();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
