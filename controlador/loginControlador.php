@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['rol'] = $usuario['rol'];
 
         if ($usuario['rol'] == 'admin') {
-            header("Location: ../vista/dashboard-admin.php");
+            header("Location: ../vista/dashboardInicio.php");
         } else {
-            header("Location: ../vista/dashboard-mozo.php");
+            header("Location: ../vista/dashboardInicio.php");
         }
         exit();
     } else {

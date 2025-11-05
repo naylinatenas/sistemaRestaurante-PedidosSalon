@@ -7,14 +7,14 @@ require_once __DIR__ . '/../modelo/PlatoDAO.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
-if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
+if (!isset($_SESSION['usuario'])) {
     echo json_encode(['status' => 'error', 'message' => 'Acceso no autorizado']);
     exit();
 }
 
 $dao = new PlatoDAO();
 
-try {
+try { 
     $method = $_SERVER['REQUEST_METHOD'];
 
     if ($method === 'POST') {

@@ -3,7 +3,7 @@ require_once '../modelo/PedidoDAO.php';
 session_start();
 
 // Verificar autenticación
-if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'mozo') {
+if (!isset($_SESSION['usuario'])) {
     header("Location: ../vista/login.php");
     exit();
 }
